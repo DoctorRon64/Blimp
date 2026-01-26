@@ -3,18 +3,20 @@ project(Blimp LANGUAGES CXX)
 file(GLOB_RECURSE SOURCES CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp")
 add_library(${PROJECT_NAME} STATIC ${SOURCES})
 target_include_directories(${PROJECT_NAME} PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/src")
+target_compile_definitions(${PROJECT_NAME} PUBLIC BLIMP_STATIC)
 
-if (CMAKE_SIZEOF_VOID_P)
-target_compile_definitions(${PROJECT_NAME} PUBLIC BLIMP_PLATFORM_WINDOWS)
+if (WIN32)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC BLIMP_PLATFORM_WINDOWS)
 elseif(UNIX)
-target_compile_definitions(${PROJECT_NAME} PUBLIC BLIMP_PLATFORM_LINUX)
+    target_compile_definitions(${PROJECT_NAME} PUBLIC BLIMP_PLATFORM_LINUX)
+else()
+    message(FATAL_ERROR "Blimp only supports Windows and Linux!")
 endif()
 
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
 
-# for dll libs
-# add_library(Blimp SHARED ${SOURCES})
-#target_compile_definitions(Blimp PRIVATE BLIMP_BUILD_DLL)
+#Dll Builds
+target_compile_definitions(Blimp PRIVATE BLIMP_BUILD_DLL)
 
 # TODO Precompiled headers!!!
 # target_precompile_headers(${PROJECT_NAME} PRIVATE "src/Precompiled.h")

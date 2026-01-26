@@ -3,8 +3,7 @@
 #include "Core.h"
 
 namespace Blimp {
-	//class BLIMP_API Application
-	class Application {
+	class BLIMP_API Application {
 	public:
 		Application();
 		virtual ~Application();
