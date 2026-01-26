@@ -1,0 +1,7 @@
+<Solution>
+  <Configurations>
+    <Platform Name="x64" />
+  </Configurations>
+  <Project Path="Sandbox/Sandbox.vcxproj" Id="9625989c-811e-4b34-907c-05f27432f916" />
+  <Project Path="Blimp/Blimp.vcxproj" Id="dd6db521-4ec7-4d18-b546-af785bda8a3d" />
+</Solution>
