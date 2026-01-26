@@ -4,7 +4,8 @@
 
 #include <cstdio>
 #include "Blimp/Application.h"
+#include "Blimp/Log.h"
 
 //===========Entrypoint==========
-#include "Blimp/EntryPoint.h"
+//#include "Blimp/EntryPoint.h"
 //===============================

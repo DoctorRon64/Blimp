@@ -1,7 +1,17 @@
 # Dirs
-.vs/
 bin/
 int/
 
-# files
+# CMake build dirs
+build/
+cmake-build-*/
+
+# Visual Studio
+.vs/
+*.sln
+*.vcxproj*
+*.filters
 *.user
+
+# VS Code
+.vscode/

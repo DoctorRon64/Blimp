@@ -13,3 +13,5 @@ Blimp::Application* Blimp::CreateApplication() {
 Sandbox::Sandbox() {}
 
 Sandbox::~Sandbox() {}
+
+#include "Blimp/EntryPoint.h"
