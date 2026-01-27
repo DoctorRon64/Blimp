@@ -17,3 +17,5 @@
 #else
 #error Blimp only supports Windows and Linux!
 #endif
+
+#define BIT(x) (1u << (x))

@@ -10,9 +10,7 @@ int main(int argc, char** argv) {
 	printf("EntryPoint \n");
 
 	Blimp::Log::Init();
-	BLIMP_CORE_INFO("Initialize Log");
-	int variab = 5;
-	BLIMP_INFO("Hello! Var= {0}", variab);
+	BLIMP_TRACE("Initialized Blimp::Log");
 
 	auto app = Blimp::CreateApplication();
 	app->Run();

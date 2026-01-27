@@ -13,13 +13,14 @@ else()
     message(FATAL_ERROR "Blimp only supports Windows and Linux!")
 endif()
 
+add_subdirectory(libs/spdlog)
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
 
 #Dll Builds
 target_compile_definitions(Blimp PRIVATE BLIMP_BUILD_DLL)
 
-# TODO Precompiled headers!!!
-# target_precompile_headers(${PROJECT_NAME} PRIVATE "src/Precompiled.h")
+#Precompiled headers
+target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
 
 # TODO Assets Folder
 # add_dependencies(${PROJECT_NAME} copyAssets)

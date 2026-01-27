@@ -21,6 +21,5 @@ if (CMAKE_CONFIGURATION_TYPES)
     endforeach()
 endif()
 
-add_subdirectory(Blimp/libs/spdlog)
 add_subdirectory(Blimp)
 add_subdirectory(Sandbox)
