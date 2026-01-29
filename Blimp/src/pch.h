@@ -16,6 +16,8 @@
 #include <unordered_set>
 #include <vector>
 
+#include "Blimp/Log.h"
+
 #if defined(BLIMP_PLATFORM_WINDOWS)
 #include <Windows.h>
 #elif defined(BLIMP_PLATFORM_LINUX)

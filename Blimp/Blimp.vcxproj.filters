@@ -7,6 +7,15 @@
     <Filter Include="Blimp\Events">
       <UniqueIdentifier>{3DC111A4-2924-A148-D2A9-D9FEBEEB6CCB}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Platform">
+      <UniqueIdentifier>{2AC788B4-1694-E3BF-3FAD-D1672BD9184E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Linux">
+      <UniqueIdentifier>{C9310D94-B5FF-009A-9E93-71C08A00DDFE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Platform\Windows">
+      <UniqueIdentifier>{64FBD71A-50F4-F66C-7926-DCF1657ED678}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Blimp.h" />
@@ -37,6 +46,15 @@
     <ClInclude Include="src\Blimp\Log.h">
       <Filter>Blimp</Filter>
     </ClInclude>
+    <ClInclude Include="src\Blimp\Window.h">
+      <Filter>Blimp</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Linux\LinuxWindow.h">
+      <Filter>Platform\Linux</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Platform\Windows\WindowsWindow.h">
+      <Filter>Platform\Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -45,6 +63,15 @@
     </ClCompile>
     <ClCompile Include="src\Blimp\Log.cpp">
       <Filter>Blimp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Blimp\Window.cpp">
+      <Filter>Blimp</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Linux\LinuxWindow.cpp">
+      <Filter>Platform\Linux</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Platform\Windows\WindowsWindow.cpp">
+      <Filter>Platform\Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\pch.cpp" />
   </ItemGroup>

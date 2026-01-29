@@ -11,6 +11,11 @@ workspace "Blimp"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["GLFW"] = "Blimp/libs/GLFW/include"
+
+include "Blimp/libs/GLFW"
+
 project "Blimp"
     location "Blimp"
     kind "StaticLib"
@@ -22,18 +27,24 @@ project "Blimp"
     objdir ("build/int/" .. outputdir .. "/%{prj.name}")
 
     pchheader "pch.h" 
-    pchsource "Blimp/src/pch.cpp"
+    pchsource "{prj.name}/src/pch.cpp"
 
     files
     {
-        "Blimp/src/**.h",
-        "Blimp/src/**.cpp"
+        "{prj.name}/src/**.h",
+        "{prj.name}/src/**.cpp"
     }
 
     includedirs
     {
-        "Blimp/src",
-        "Blimp/libs/spdlog/include"
+        "{prj.name}/src",
+        "{prj.name}/libs/spdlog/include",
+        "%{IncludeDir.GLFW}"
+    }
+
+    links{
+        "GLFW"
+        -- "opengl32.lib"
     }
 
     filter "system:windows"
@@ -78,14 +89,14 @@ project "Sandbox"
 
     files
     {
-        "Sandbox/src/**.h",
-        "Sandbox/src/**.cpp"
+        "{prj.name}/src/**.h",
+        "{prj.name}/src/**.cpp"
     }
 
     includedirs
     {
         "Blimp/src",
-        "Blimp/libs/spdlog/include"
+        "Blimp/libs/spdlog/include",
     }
 
     links

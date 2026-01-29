@@ -1,98 +1,90 @@
 #pragma once
 
+//#include "Blimp/Debug/Instrumentor.h"
+//#include "Blimp/Core/Base.h"
+
 #include "Blimp/Core.h"
 
-
+#include <functional>
+#include <ostream>
+#include <string>
 
 namespace Blimp {
 
-    enum class EventType : uint8_t {
-        None = 0,
-        WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
-        AppTick, AppUpdate, AppRender,
-        KeyPressed, KeyReleased,
-        MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
-    };
+	// Events in Hazel are currently blocking, meaning when an event occurs it
+	// immediately gets dispatched and must be dealt with right then an there.
+	// For the future, a better strategy might be to buffer events in an event
+	// bus and process them during the "event" part of the update stage.
 
-    enum class EventCategory : uint32_t {
-        None = 0,
-        Application = BIT(0),
-        Input = BIT(1),
-        Keyboard = BIT(2),
-        Mouse = BIT(3),
-        MouseButton = BIT(4)
-    };
+	enum class EventType
+	{
+		None = 0,
+		WindowClose, WindowResize, WindowFocus, WindowLostFocus, WindowMoved,
+		AppTick, AppUpdate, AppRender,
+		KeyPressed, KeyReleased, KeyTyped,
+		MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
+	};
 
-    enum class EventPhase : uint8_t {
-        Capture = 0,
-        Bubble
-    };
+	enum EventCategory
+	{
+		None = 0,
+		EventCategoryApplication    = BIT(0),
+		EventCategoryInput          = BIT(1),
+		EventCategoryKeyboard       = BIT(2),
+		EventCategoryMouse          = BIT(3),
+		EventCategoryMouseButton    = BIT(4)
+	};
 
-    constexpr uint32_t ToMask(EventCategory category) {
-        return static_cast<uint32_t>(category);
-    }
+#define EVENT_CLASS_TYPE(type) static EventType GetStaticType() { return EventType::type; }\
+								virtual EventType GetEventType() const override { return GetStaticType(); }\
+								virtual const char* GetName() const override { return #type; }
 
-    template<typename... Categories>
-    constexpr uint32_t CategoryMask(Categories... categories) {
-        return (ToMask(categories) | ... | 0u);
-    }
+#define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
-    class Event {
-    public:
-        virtual ~Event() = default;
+	class Event
+	{
+	public:
+		virtual ~Event() = default;
 
-        virtual EventType GetEventType() const = 0;
-        virtual const char* GetName() const = 0;
-        virtual uint32_t GetCategoryFlags() const = 0;
-        virtual std::string ToString() const { return GetName(); }
+		bool Handled = false;
 
-        bool IsInCategory(EventCategory category) const {
-            return (GetCategoryFlags() & ToMask(category)) != 0;
-        }
+		virtual EventType GetEventType() const = 0;
+		virtual const char* GetName() const = 0;
+		virtual int GetCategoryFlags() const = 0;
+		virtual std::string ToString() const { return GetName(); }
 
-        bool IsHandled() const { return m_Handled; }
-        void SetHandled(bool handled) { m_Handled = handled; }
+		bool IsInCategory(EventCategory category)
+		{
+			return GetCategoryFlags() & category;
+		}
+	};
 
-        void StopPropagation() { m_PropagationStopped = true; }
-        bool IsPropagationStopped() const { return m_PropagationStopped; }
+	class EventDispatcher
+	{
+	public:
+		EventDispatcher(Event& event)
+			: m_Event(event)
+		{
+		}
+		
+		// F will be deduced by the compiler
+		template<typename T, typename F>
+		bool Dispatch(const F& func)
+		{
+			if (m_Event.GetEventType() == T::GetStaticType())
+			{
+				m_Event.Handled |= func(static_cast<T&>(m_Event));
+				return true;
+			}
+			return false;
+		}
+	private:
+		Event& m_Event;
+	};
 
-        EventPhase GetPhase() const { return m_Phase; }
-        void SetPhase(EventPhase phase) { m_Phase = phase; }
-
-    private:
-        bool m_Handled = false;
-        bool m_PropagationStopped = false;
-        EventPhase m_Phase = EventPhase::Bubble;
-    };
-
-    template<typename Derived, EventType Type, uint32_t CategoryFlags>
-    class EventBase : public Event {
-    public:
-        static constexpr EventType GetStaticType() { return Type; }
-        EventType GetEventType() const override { return Type; }
-        const char* GetName() const override { return Derived::GetStaticName(); }
-        uint32_t GetCategoryFlags() const override { return CategoryFlags; }
-    };
-
-    class EventDispatcher {
-    public:
-        explicit EventDispatcher(Event& event) : m_Event(event) {}
-
-        template<typename T, typename F>
-        bool Dispatch(F&& func) {
-            if (m_Event.GetEventType() == T::GetStaticType()) {
-                m_Event.SetHandled(std::forward<F>(func)(static_cast<T&>(m_Event)));
-                return true;
-            }
-            return false;
-        }
-
-    private:
-        Event& m_Event;
-    };
-
-    inline std::ostream& operator<<(std::ostream& os, const Event& e) {
-        return os << e.ToString();
-    }
+	inline std::ostream& operator<<(std::ostream& os, const Event& e)
+	{
+		return os << e.ToString();
+	}
 
 }

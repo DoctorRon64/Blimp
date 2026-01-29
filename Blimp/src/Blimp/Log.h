@@ -1,9 +1,9 @@
 #pragma once
 
 #include "Core.h"
-#include "spdlog/spdlog.h"
-#include "spdlog/fmt/ostr.h"
 #include "Events/EventFormatter.h"
+#include "spdlog/fmt/ostr.h"
+#include "spdlog/spdlog.h"
 
 namespace Blimp {
 	class BLIMP_API Log {

@@ -143,9 +143,6 @@
     </ProjectReference>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\SandboxApp.cpp" />
-  </ItemGroup>
-  <ItemGroup>
     <ProjectReference Include="..\Blimp\Blimp.vcxproj">
       <Project>{7957E60C-E56B-0EBE-AEED-B11D1AC10AEF}</Project>
     </ProjectReference>

@@ -14,7 +14,11 @@ else()
 endif()
 
 add_subdirectory(libs/spdlog)
+add_subdirectory(libs/GLFW)
+
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
+target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 
 #Dll Builds
 target_compile_definitions(Blimp PRIVATE BLIMP_BUILD_DLL)
