@@ -12,6 +12,7 @@ cmake-build-*/
 *.vcxproj*
 *.filters
 *.user
+*.VC.db
 
 # VS Code
 .vscode/
