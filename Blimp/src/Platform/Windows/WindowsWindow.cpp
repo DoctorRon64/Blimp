@@ -5,6 +5,8 @@
 #include "Blimp/Events/MouseEvent.h"
 #include "Blimp/Events/KeyEvent.h"
 
+#include <glad/glad.h>
+
 namespace Blimp {
 	static bool GLFW_Initialized = false;
 
@@ -36,6 +38,10 @@ namespace Blimp {
 
 		m_Window = glfwCreateWindow(static_cast<int>(properties.Width), static_cast<int>(properties.Height), Data_.Title.c_str(), nullptr, nullptr);
 		glfwMakeContextCurrent(m_Window);
+		//Init Glad
+		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		BLIMP_CORE_ASSERT(status, "Cannot initialize Glad!");
+
 		glfwSetWindowUserPointer(m_Window, &Data_);
 		SetVSync(true);
 
