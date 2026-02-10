@@ -18,7 +18,7 @@ class Sandbox : public Blimp::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Blimp::ImGuiLayer());
+		//PushOverlay(new Blimp::ImGuiLayer());
 	}
 
 	~Sandbox() = default;

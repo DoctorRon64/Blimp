@@ -9,7 +9,7 @@
 
 namespace Blimp {
 	static bool GLFW_Initialized = false;
-
+	
 	static void GLFWErrorCallback(int error, const char* description) {
 		BLIMP_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
 	} 

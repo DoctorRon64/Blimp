@@ -4,6 +4,7 @@ int/
 
 # CMake build dirs
 build/
+out/
 cmake-build-*/
 
 # Visual Studio
