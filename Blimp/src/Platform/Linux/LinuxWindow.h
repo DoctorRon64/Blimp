@@ -18,6 +18,7 @@ namespace Blimp {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
+		void* GetNativeWindow() const;
 	private:
 		void Init(const WindowProperties& properties);
 		void Terminate();

@@ -3,12 +3,16 @@
 
 #include "Layer.h"
 #include <GLFW/glfw3.h>
+#include "glad/glad.h"
 
 namespace Blimp {
 
-#define BIND_EVENT_WIN(y) std::bind(&Application::y, this, std::placeholders::_1)
+	#define BIND_EVENT_WIN(y) std::bind(&Application::y, this, std::placeholders::_1)
+	Application* Application::s_Instance = nullptr;
 
 	Application::Application() {
+		BLIMP_CORE_ASSERT(!s_Instance, "Application already exists!");
+		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_WIN(OnEvent));
 	}
@@ -19,8 +23,8 @@ namespace Blimp {
 
 	void Application::Run() {
 		while(m_Running) {
-			//glClearColor(1, 0, 1, 1);
-			//glClear(GL_COLOR_BUFFER_BIT);
+			glClearColor(0.3255, 0.7373, 0.6353, 1);
+			glClear(GL_COLOR_BUFFER_BIT);
 			
 			for(Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
@@ -44,10 +48,12 @@ namespace Blimp {
 
     void Application::PushLayer(Layer *layer) {
 		m_LayerStack.PushLayer(layer);
+		layer->OnAttach();
 	}
 
     void Application::PushOverlay(Layer *layer) {
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
     }
 
     bool Application::OnWindowClose(WindowCloseEvent& e) {

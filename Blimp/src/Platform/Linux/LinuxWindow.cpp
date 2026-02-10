@@ -56,4 +56,9 @@ namespace Blimp {
 	bool LinuxWindow::IsVSync() const {
 		return Data_.VSync;
 	}
+
+	void* LinuxWindow::GetNativeWindow() const
+	{
+		return m_Window; // m_Window is GLFWwindow*
+	}
 }

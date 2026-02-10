@@ -25,12 +25,12 @@ endif()
 add_subdirectory(libs/spdlog)
 add_subdirectory(libs/GLFW)
 add_subdirectory(libs/GLAD)
+add_subdirectory(libs/imgui)
 
 target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC GLAD)
-
-
+target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 
 #Precompiled headers
 target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")

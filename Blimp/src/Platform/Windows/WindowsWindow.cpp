@@ -144,4 +144,9 @@ namespace Blimp {
 	bool WindowsWindow::IsVSync() const {
 		return Data_.VSync;
 	}
+
+	void* WindowsWindow::GetNativeWindow() const
+	{
+		return m_Window; // m_Window is GLFWwindow*
+	}
 }

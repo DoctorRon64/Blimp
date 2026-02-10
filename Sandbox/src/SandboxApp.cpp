@@ -16,16 +16,14 @@ class ExampleLayer : public Blimp::Layer {
 
 class Sandbox : public Blimp::Application {
 public:
-	Sandbox();
-	~Sandbox();
+	Sandbox() {
+		PushLayer(new ExampleLayer());
+		PushOverlay(new Blimp::ImGuiLayer());
+	}
+
+	~Sandbox() = default;
 };
 
 Blimp::Application* Blimp::CreateApplication() {
-	return new Sandbox(); //the actual app
+	return new Sandbox(); // the actual app
 }
-
-Sandbox::Sandbox() {
-	PushLayer(new ExampleLayer());
-}
-
-Sandbox::~Sandbox() {}
