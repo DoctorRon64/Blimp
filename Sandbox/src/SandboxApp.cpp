@@ -16,15 +16,16 @@ class ExampleLayer : public Blimp::Layer {
 
 	void OnEvent(Blimp::Event& event) override {
 		//BLIMP_TRACE("{0}", event);
+		Blimp::EventDispatcher dispatcher(event);
+		dispatcher.Dispatch<Blimp::KeyPressedEvent>(BLIMP_BIND_EVENT_FN(ExampleLayer::OnKeyPressedEvent));
+	}
 
-		if (event.GetEventType() == Blimp::EventType::KeyPressed) {
-			auto& e = static_cast<Blimp::KeyPressedEvent&>(event);
-
-			if (e.GetKeyCode() == BLIMP_KEY_TAB) {
-				BLIMP_WARN("TAB PRESSED");
-			}
-			BLIMP_TRACE("{0}", (char)e.GetKeyCode());
+	bool OnKeyPressedEvent(Blimp::KeyPressedEvent& e) {
+		if (e.GetKeyCode() == BLIMP_KEY_TAB) {
+			BLIMP_WARN("TAB PRESSED");
 		}
+		BLIMP_TRACE("{0}", (char)e.GetKeyCode());
+		return false;
 	}
 };
 

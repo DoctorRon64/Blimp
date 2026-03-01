@@ -47,6 +47,17 @@ target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC GLAD)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
 
+if (MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE /W4 /permissive-)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wpedantic -Wshadow)
+endif()
+
+if (BLIMP_ENABLE_SANITIZERS AND NOT MSVC)
+    target_compile_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined -fno-omit-frame-pointer)
+    target_link_options(${PROJECT_NAME} PRIVATE -fsanitize=address,undefined)
+endif()
+
 #Precompiled headers
 target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
 

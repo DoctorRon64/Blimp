@@ -6,7 +6,7 @@ namespace Blimp {
 	class WindowsWindow : public Window {
 	public:
 		WindowsWindow(const WindowProperties& properties);
-		virtual ~WindowsWindow();
+		~WindowsWindow() override;
 
 		void OnUpdate() override;
 
@@ -17,11 +17,11 @@ namespace Blimp {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		inline virtual void* GetNativeWindow() const;
+		void* GetNativeWindow() const override;
 		
 	private:
-		virtual void Init(const WindowProperties& properties);
-		virtual void Terminate();
+		void Init(const WindowProperties& properties);
+		void Terminate();
 
 	private:
 		GLFWwindow* m_Window = nullptr;
