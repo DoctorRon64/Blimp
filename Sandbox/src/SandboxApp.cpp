@@ -2,6 +2,20 @@
 
 #include "Blimp/Events/KeyEvent.h"
 
+// #include <glm/vec3.hpp>
+// #include <glm/vec4.hpp>
+// #include <glm/mat4x4.hpp>
+// #include <glm/gtc/matrix_transform.hpp>
+
+// glm::mat4 camera(float Translate, glm::vec2 const & rotate) {
+// 	glm::mat4 Projection = glm::perspective(glm::radians(45.0f), 4.0f / 3.0f, 0.1f, 100.0f);
+// 	glm::mat4 view = glm::translate(glm::mat4(1.0f), glm::vec3(0.0f, 0.0f, -Translate));
+// 	view = glm::rotate(View, Rotate.y, glm::vec3(-1.0f,0.0,0.0f));
+// 	view = glm::rotate(view, Rotate.x, glm::vec3(0.0f, 1.0f, 0.0f));
+// 	glm::mat4 Model = glm::scale(glm::mat4(1.0f), glm::vec3(0.5f));
+// 	return Projection * view * Model;
+// }
+
 class ExampleLayer : public Blimp::Layer {
 	public:
 	ExampleLayer() : Layer("Por_Ejemplo") {}

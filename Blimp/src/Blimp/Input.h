@@ -6,26 +6,26 @@
 namespace Blimp {
     class BLIMP_API Input {
     public:
-        static bool IsKeyPressed(int keycode) {
-            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
-            return s_Instance->IsKeyPressedImplementation(keycode);
-        }
-        static bool IsMouseButtonPressed(int button) {
-            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
-            return s_Instance->IsMouseButtonPressedImplementation(button);
-        }
-        static std::pair<float, float> GetMousePos() {
-            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
-            return s_Instance->GetMousePosImplementation();
-        }
-        static float GetMouseX() {
-            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
-            return s_Instance->GetMouseXImplementation();
-        }
-        static float GetMouseY() {
-            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
-            return s_Instance->GetMouseYImplementation();
-        }
+    static bool IsKeyPressed(int keycode) {
+        BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+        return s_Instance->IsKeyPressedImplementation(keycode);
+    }
+    static bool IsMouseButtonPressed(int button) {
+        BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+        return s_Instance->IsMouseButtonPressedImplementation(button);
+    }
+    static std::pair<float, float> GetMousePos() {
+        BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+        return s_Instance->GetMousePosImplementation();
+    }
+    static float GetMouseX() {
+        BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+        return s_Instance->GetMouseXImplementation();
+    }
+    static float GetMouseY() {
+        BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+        return s_Instance->GetMouseYImplementation();
+    }
 
     protected:
         virtual ~Input() = default;

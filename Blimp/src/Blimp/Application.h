@@ -33,3 +33,5 @@ namespace Blimp {
 	// to be defined in client
 	Application* CreateApplication();
 }
+
+//TODO Refactor the Platform folder

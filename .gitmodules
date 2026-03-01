@@ -7,3 +7,6 @@
 [submodule "Blimp/libs/imgui"]
 	path = Blimp/libs/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "Blimp/libs/glm"]
+	path = Blimp/libs/glm
+	url = https://github.com/g-truc/glm.git

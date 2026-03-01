@@ -25,6 +25,8 @@ endif()
 add_subdirectory(libs/spdlog)
 add_subdirectory(libs/GLFW)
 add_subdirectory(libs/GLAD)
+add_subdirectory(libs/glm)
+
 # ImGui (no upstream CMakeLists, define target manually)
 add_library(imgui
     libs/imgui/imgui.cpp
@@ -38,7 +40,6 @@ add_library(imgui
     libs/imgui/backends/imgui_impl_opengl3.cpp
 )
 target_include_directories(imgui PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui" "${CMAKE_CURRENT_SOURCE_DIR}/libs/imgui/backends")
-
 target_link_libraries(imgui PUBLIC glfw GLAD)
 target_compile_definitions(imgui PRIVATE GLFW_INCLUDE_NONE)
 
@@ -46,6 +47,7 @@ target_link_libraries(${PROJECT_NAME} PUBLIC spdlog::spdlog)
 target_link_libraries(${PROJECT_NAME} PUBLIC glfw)
 target_link_libraries(${PROJECT_NAME} PUBLIC GLAD)
 target_link_libraries(${PROJECT_NAME} PUBLIC imgui)
+target_link_libraries(${PROJECT_NAME} PUBLIC glm)
 
 #Precompiled headers
 target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
