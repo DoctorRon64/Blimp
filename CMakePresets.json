@@ -1,5 +1,5 @@
 {
-  "version": 6,
+  "version": 8,
   "cmakeMinimumRequired": {
     "major": 3,
     "minor": 25,
@@ -7,17 +7,26 @@
   },
   "configurePresets": [
     {
-      "name": "ninja-debug",
-      "displayName": "Ninja Debug",
+      "name": "gcc-debug",
+      "displayName": "GCC Debug (UCRT64 + Ninja)",
+      "description": "Default preset. Uses MSYS2 UCRT64 gcc/g++ with Ninja.",
       "generator": "Ninja",
       "binaryDir": "${sourceDir}/build/ninja-debug",
       "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug"
+        "CMAKE_BUILD_TYPE": "Debug",
+        "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+        "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
+        "CMAKE_RC_COMPILER": "C:/msys64/ucrt64/bin/windres.exe",
+        "CMAKE_MAKE_PROGRAM": "C:/msys64/ucrt64/bin/ninja.exe"
+      },
+      "environment": {
+        "PATH": "C:/msys64/ucrt64/bin;$penv{PATH}"
       }
     },
     {
       "name": "vs2022-x64",
       "displayName": "Visual Studio 2022 x64",
+      "description": "Optional Visual Studio generator preset.",
       "generator": "Visual Studio 17 2022",
       "binaryDir": "${sourceDir}/build/vs2022",
       "architecture": {
@@ -26,16 +35,21 @@
       }
     },
     {
-      "name": "vs-latest-x64",
-      "displayName": "Visual Studio Latest x64",
-      "inherits": "vs2022-x64",
-      "binaryDir": "${sourceDir}/build/vs-latest"
+      "name": "vs2026-x64",
+      "displayName": "Visual Studio 2026 x64",
+      "description": "Requires a CMake version that supports the VS 2026 generator.",
+      "generator": "Visual Studio 18 2026",
+      "binaryDir": "${sourceDir}/build/vs2026",
+      "architecture": {
+        "value": "x64",
+        "strategy": "external"
+      }
     }
   ],
   "buildPresets": [
     {
-      "name": "ninja-debug",
-      "configurePreset": "ninja-debug"
+      "name": "gcc-debug",
+      "configurePreset": "gcc-debug"
     },
     {
       "name": "vs2022-debug",
@@ -48,13 +62,13 @@
       "configuration": "Release"
     },
     {
-      "name": "vs-latest-debug",
-      "configurePreset": "vs-latest-x64",
+      "name": "vs2026-debug",
+      "configurePreset": "vs2026-x64",
       "configuration": "Debug"
     },
     {
-      "name": "vs-latest-release",
-      "configurePreset": "vs-latest-x64",
+      "name": "vs2026-release",
+      "configurePreset": "vs2026-x64",
       "configuration": "Release"
     }
   ]

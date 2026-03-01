@@ -5,6 +5,8 @@
 #include <GLFW/glfw3.h>
 #include "glad/glad.h"
 
+#include "Input.h"
+
 namespace Blimp {
 
 	#define BIND_EVENT_WIN(y) std::bind(&Application::y, this, std::placeholders::_1)
@@ -30,6 +32,9 @@ namespace Blimp {
 				layer->OnUpdate();
 			}
 			
+			auto[x,y] = Input::GetMousePos();
+			BLIMP_CORE_TRACE("{0}, {1}",x, y);
+
 			m_Window->OnUpdate();
 		}
 	}
