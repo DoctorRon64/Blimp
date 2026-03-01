@@ -37,6 +37,7 @@ namespace Blimp {
 		}
 
 		m_Window = glfwCreateWindow(static_cast<int>(properties.Width), static_cast<int>(properties.Height), Data_.Title.c_str(), nullptr, nullptr);
+		BLIMP_CORE_ASSERT(m_Window, "Could not create GLFW window!");
 		glfwMakeContextCurrent(m_Window);
 		//Init Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
