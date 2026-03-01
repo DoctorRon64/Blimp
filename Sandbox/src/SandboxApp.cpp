@@ -1,15 +1,30 @@
 #include <Blimp.h>
 
+#include "Blimp/Events/KeyEvent.h"
+
 class ExampleLayer : public Blimp::Layer {
 	public:
 	ExampleLayer() : Layer("Por_Ejemplo") {}
 
 	void OnUpdate() override {
-		BLIMP_INFO("ExampleLayer::Update");
+		//BLIMP_INFO("ExampleLayer::Update");
+
+		if (Blimp::Input::IsKeyPressed(BLIMP_KEY_TAB)) {
+			BLIMP_TRACE("TAB PRESSED");
+		}
 	}
 
 	void OnEvent(Blimp::Event& event) override {
-		BLIMP_TRACE("{0}", event);
+		//BLIMP_TRACE("{0}", event);
+
+		if (event.GetEventType() == Blimp::EventType::KeyPressed) {
+			auto& e = static_cast<Blimp::KeyPressedEvent&>(event);
+
+			if (e.GetKeyCode() == BLIMP_KEY_TAB) {
+				BLIMP_WARN("TAB PRESSED");
+			}
+			BLIMP_TRACE("{0}", (char)e.GetKeyCode());
+		}
 	}
 };
 

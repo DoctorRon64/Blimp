@@ -33,7 +33,7 @@ namespace Blimp {
 			}
 			
 			auto[x,y] = Input::GetMousePos();
-			BLIMP_CORE_TRACE("{0}, {1}",x, y);
+			//BLIMP_CORE_TRACE("{0}, {1}",x, y);
 
 			m_Window->OnUpdate();
 		}
