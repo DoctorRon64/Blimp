@@ -9,6 +9,7 @@ namespace Blimp {
     
     LayerStack::~LayerStack(){
         for(Layer* layer : m_Layers) {
+            layer->OnDetach();
             delete layer;
             layer = nullptr;
         }
@@ -23,6 +24,8 @@ namespace Blimp {
         auto end = m_Layers.begin() + static_cast<std::ptrdiff_t>(m_LayerInsert);
         auto it = std::find(m_Layers.begin(), end, layer);
         if (it != end) {
+            (*it)->OnDetach();
+            delete *it;
             m_Layers.erase(it);
             --m_LayerInsert;
         }
@@ -36,6 +39,8 @@ namespace Blimp {
         auto begin = m_Layers.begin() + static_cast<std::ptrdiff_t>(m_LayerInsert);
         auto it = std::find(begin, m_Layers.end(), overlay);
         if (it != m_Layers.end()) {
+            (*it)->OnDetach();
+            delete *it;
             m_Layers.erase(it);
         }
     }
