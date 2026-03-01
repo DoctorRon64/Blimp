@@ -1,35 +1,35 @@
 #include "pch.h"
-#include "WindowsWindow.h"
+#include "GLFWWindow.h"
 
 #include "Blimp/Events/ApplicationEvent.h"
-#include "Blimp/Events/MouseEvent.h"
 #include "Blimp/Events/KeyEvent.h"
+#include "Blimp/Events/MouseEvent.h"
 
 #include <glad/glad.h>
 
 namespace Blimp {
 	static bool GLFW_Initialized = false;
-	
+
 	static void GLFWErrorCallback(int error, const char* description) {
 		BLIMP_CORE_ERROR("GLFW Error ({0}): {1}", error, description);
-	} 
-	
-	WindowsWindow::WindowsWindow(const WindowProperties& properties) {
+	}
+
+	GLFWWindow::GLFWWindow(const WindowProperties& properties) {
 		Init(properties);
 	}
 
-	WindowsWindow::~WindowsWindow() {
+	GLFWWindow::~GLFWWindow() {
 		Terminate();
 	}
 
-	void WindowsWindow::Init(const WindowProperties& properties) {
+	void GLFWWindow::Init(const WindowProperties& properties) {
 		Data_.Title = properties.Title;
 		Data_.Width = properties.Width;
 		Data_.Height = properties.Height;
 
 		BLIMP_CORE_INFO("Creating window {0} ({1}, {2})", properties.Title, properties.Width, properties.Height);
 
-		if(!GLFW_Initialized) {
+		if (!GLFW_Initialized) {
 			int success = glfwInit();
 			BLIMP_CORE_ASSERT(success, "Could not init GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
@@ -39,7 +39,6 @@ namespace Blimp {
 		m_Window = glfwCreateWindow(static_cast<int>(properties.Width), static_cast<int>(properties.Height), Data_.Title.c_str(), nullptr, nullptr);
 		BLIMP_CORE_ASSERT(m_Window, "Could not create GLFW window!");
 		glfwMakeContextCurrent(m_Window);
-		//Init Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BLIMP_CORE_ASSERT(status, "Cannot initialize Glad!");
 
@@ -48,97 +47,95 @@ namespace Blimp {
 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			data.Width = width;
-			data.Height = height;
-			
-			WindowResizeEvent event(width, height);
+			data.Width = static_cast<unsigned int>(width);
+			data.Height = static_cast<unsigned int>(height);
+
+			WindowResizeEvent event(static_cast<unsigned int>(width), static_cast<unsigned int>(height));
 			data.EventCallback(event);
 		});
 
 		glfwSetWindowCloseCallback(m_Window, [](GLFWwindow* window) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			
+
 			WindowCloseEvent event;
 			data.EventCallback(event);
 		});
 
-		
 		glfwSetKeyCallback(m_Window, [](GLFWwindow* window, int key, int scancode, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
+			(void)scancode;
+			(void)mods;
 
-			switch(action) {
+			switch (action) {
 				case GLFW_PRESS: {
 					KeyPressedEvent event(key, false);
 					data.EventCallback(event);
-					break; 
+					break;
 				}
 				case GLFW_RELEASE: {
 					KeyReleasedEvent event(key);
 					data.EventCallback(event);
-					break; 
+					break;
 				}
 				case GLFW_REPEAT: {
 					KeyPressedEvent event(key, true);
 					data.EventCallback(event);
-					break; 
+					break;
 				}
 			}
 		});
 
 		glfwSetCharCallback(m_Window, [](GLFWwindow* window, unsigned int keycode) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			KeyTypedEvent event(keycode);
+			KeyTypedEvent event(static_cast<int>(keycode));
 			data.EventCallback(event);
 		});
 
 		glfwSetMouseButtonCallback(m_Window, [](GLFWwindow* window, int button, int action, int mods) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
-			
-			switch(action) {
+			(void)mods;
+
+			switch (action) {
 				case GLFW_PRESS: {
 					MouseButtonPressedEvent event(button);
 					data.EventCallback(event);
-					break;					
-				} 
+					break;
+				}
 				case GLFW_RELEASE: {
 					MouseButtonReleasedEvent event(button);
 					data.EventCallback(event);
 					break;
 				}
 			}
-		});	
-		
+		});
+
 		glfwSetScrollCallback(m_Window, [](GLFWwindow* window, double xOffset, double yOffset) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			MouseScrolledEvent event((float) xOffset, (float)yOffset);
+			MouseScrolledEvent event(static_cast<float>(xOffset), static_cast<float>(yOffset));
 			data.EventCallback(event);
 		});
 
 		glfwSetCursorPosCallback(m_Window, [](GLFWwindow* window, double xPos, double yPos) {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 
-			MouseMovedEvent event((float)xPos, (float)yPos);
+			MouseMovedEvent event(static_cast<float>(xPos), static_cast<float>(yPos));
 			data.EventCallback(event);
 		});
-
-		//TODO add icon to game engine after we have asset loading!
-		//GLFWimage images[1];
-		//glfwSetWindowIcon(m_Window, 2, images);
 	}
 
-	void WindowsWindow::Terminate() {
+	void GLFWWindow::Terminate() {
 		glfwDestroyWindow(m_Window);
 		m_Window = nullptr;
 	}
 
-	void WindowsWindow::OnUpdate() {
+	void GLFWWindow::OnUpdate() {
 		glfwPollEvents();
 		glfwSwapBuffers(m_Window);
 	}
 
-	void WindowsWindow::SetVSync(bool enabled) {
-		if(enabled) {
+	void GLFWWindow::SetVSync(bool enabled) {
+		if (enabled) {
 			glfwSwapInterval(1);
 		}
 		else {
@@ -148,12 +145,11 @@ namespace Blimp {
 		Data_.VSync = enabled;
 	}
 
-	bool WindowsWindow::IsVSync() const {
+	bool GLFWWindow::IsVSync() const {
 		return Data_.VSync;
 	}
 
-	void* WindowsWindow::GetNativeWindow() const
-	{
-		return m_Window; // m_Window is GLFWwindow*
+	void* GLFWWindow::GetNativeWindow() const {
+		return m_Window;
 	}
 }
