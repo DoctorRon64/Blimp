@@ -7,7 +7,7 @@ namespace Blimp {
 	class LinuxWindow : public Window {
 	public:
 		LinuxWindow(const WindowProperties& properties);
-		~LinuxWindow() override;
+		virtual ~LinuxWindow();
 
 		void OnUpdate() override;
 
@@ -18,7 +18,7 @@ namespace Blimp {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		void* GetNativeWindow() const override;
+		void* GetNativeWindow() const;
 	private:
 		void Init(const WindowProperties& properties);
 		void Terminate();

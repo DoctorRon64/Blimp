@@ -8,21 +8,11 @@
 #endif
 
 namespace Blimp {
-    namespace {
-        std::unique_ptr<Input> CreateInputImplementation() {
 #if defined(BLIMP_PLATFORM_WINDOWS)
-            return std::make_unique<WindowsInput>();
+    Input* Input::s_Instance = new WindowsInput();
 #elif defined(BLIMP_PLATFORM_LINUX)
-            return std::make_unique<LinuxInput>();
+    Input* Input::s_Instance = new LinuxInput();
 #else
-            return nullptr;
+    Input* Input::s_Instance = nullptr;
 #endif
-        }
-    } // namespace
-
-    Input& Input::Get() {
-        static std::unique_ptr<Input> instance = CreateInputImplementation();
-        BLIMP_CORE_ASSERT(instance, "Input system has no active platform implementation");
-        return *instance;
-    }
 }

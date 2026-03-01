@@ -6,25 +6,29 @@
 namespace Blimp {
     class BLIMP_API Input {
     public:
-        virtual ~Input() = default;
-
         static bool IsKeyPressed(int keycode) {
-            return Get().IsKeyPressedImplementation(keycode);
+            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+            return s_Instance->IsKeyPressedImplementation(keycode);
         }
         static bool IsMouseButtonPressed(int button) {
-            return Get().IsMouseButtonPressedImplementation(button);
+            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+            return s_Instance->IsMouseButtonPressedImplementation(button);
         }
         static std::pair<float, float> GetMousePos() {
-            return Get().GetMousePosImplementation();
+            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+            return s_Instance->GetMousePosImplementation();
         }
         static float GetMouseX() {
-            return Get().GetMouseXImplementation();
+            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+            return s_Instance->GetMouseXImplementation();
         }
         static float GetMouseY() {
-            return Get().GetMouseYImplementation();
+            BLIMP_CORE_ASSERT(s_Instance, "Input system has no active platform implementation");
+            return s_Instance->GetMouseYImplementation();
         }
 
     protected:
+        virtual ~Input() = default;
         virtual bool IsKeyPressedImplementation(int keyCode) const = 0;
         virtual bool IsMouseButtonPressedImplementation(int button) const = 0;
         virtual std::pair<float, float> GetMousePosImplementation() const = 0;
@@ -32,6 +36,6 @@ namespace Blimp {
         virtual float GetMouseYImplementation() const = 0;
 
     private:
-        static Input& Get();
+        static Input* s_Instance;
     };
 } // namespace Blimp
