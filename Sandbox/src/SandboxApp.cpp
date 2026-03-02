@@ -1,7 +1,5 @@
 #include <Blimp.h>
 
-#include "Blimp/Events/KeyEvent.h"
-
 // #include <glm/vec3.hpp>
 // #include <glm/vec4.hpp>
 // #include <glm/mat4x4.hpp>
@@ -20,12 +18,18 @@ class ExampleLayer : public Blimp::Layer {
 	public:
 	ExampleLayer() : Layer("Por_Ejemplo") {}
 
-	void OnUpdate() override {
-		//BLIMP_INFO("ExampleLayer::Update");
+	// void OnUpdate() override {
+	// 	//BLIMP_INFO("ExampleLayer::Update");
 
-		if (Blimp::Input::IsKeyPressed(BLIMP_KEY_TAB)) {
-			BLIMP_TRACE("TAB PRESSED");
-		}
+	// 	if (Blimp::Input::IsKeyPressed(BLIMP_KEY_TAB)) {
+	// 		BLIMP_TRACE("TAB PRESSED");
+	// 	}
+	// }
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Test");
+		ImGui::Text("Hello WORLDK");
+		ImGui::End();
 	}
 
 	void OnEvent(Blimp::Event& event) override {
@@ -47,7 +51,6 @@ class Sandbox : public Blimp::Application {
 public:
 	Sandbox() {
 		PushLayer(new ExampleLayer());
-		PushOverlay(new Blimp::ImGuiLayer());
 	}
 
 	~Sandbox() = default;

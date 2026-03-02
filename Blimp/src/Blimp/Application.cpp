@@ -17,10 +17,15 @@ namespace Blimp {
 		s_Instance = this;
 		m_Window = std::unique_ptr<Window>(Window::Create());
 		m_Window->SetEventCallback(BIND_EVENT_WIN(OnEvent));
+
+		m_ImGuiLayer = std::make_unique<ImGuiLayer>();
+		m_ImGuiLayer->OnAttach();
 	}
 
 	Application::~Application() {
-
+		if (m_ImGuiLayer) {
+			m_ImGuiLayer->OnDetach();
+		}
 	}
 
 	void Application::Run() {
@@ -32,9 +37,12 @@ namespace Blimp {
 				layer->OnUpdate();
 			}
 			
-			auto[x,y] = Input::GetMousePos();
-			//BLIMP_CORE_TRACE("{0}, {1}",x, y);
-
+			m_ImGuiLayer->Begin();
+			m_ImGuiLayer->OnImGuiRender();
+			for(Layer* layer : m_ImGuiLayerStack) {
+				layer->OnImGuiRender();
+			}
+			m_ImGuiLayer->End();
 			m_Window->OnUpdate();
 		}
 	}
@@ -42,6 +50,21 @@ namespace Blimp {
 	void Application::OnEvent(Event& e) {
 		EventDispatcher dispatcher(e);
 		dispatcher.Dispatch<WindowCloseEvent>(BIND_EVENT_WIN(OnWindowClose));
+
+		m_ImGuiLayer->OnEvent(e);
+		if (e.Handled) {
+			return;
+		}
+
+		for (auto it = m_ImGuiLayerStack.end(); it != m_ImGuiLayerStack.begin();) {
+			(*--it)->OnEvent(e);
+			if (e.Handled) {
+				break;
+			}
+		}
+		if (e.Handled) {
+			return;
+		}
 
 		for (auto it = m_LayerStack.end(); it != m_LayerStack.begin();) {
 			(*--it)->OnEvent(e);
@@ -58,6 +81,16 @@ namespace Blimp {
 
     void Application::PushOverlay(Layer *layer) {
 		m_LayerStack.PushOverlay(layer);
+		layer->OnAttach();
+    }
+
+    void Application::PushImGuiLayer(Layer* layer) {
+		m_ImGuiLayerStack.PushLayer(layer);
+		layer->OnAttach();
+    }
+
+    void Application::PushImGuiOverlay(Layer* layer) {
+		m_ImGuiLayerStack.PushOverlay(layer);
 		layer->OnAttach();
     }
 
