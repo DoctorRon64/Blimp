@@ -17,7 +17,6 @@
 #include <vector>
 
 #include <cstddef>
-
 #include "Blimp/Log.h"
 
 #if defined(BLIMP_PLATFORM_WINDOWS)

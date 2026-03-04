@@ -18,13 +18,13 @@ class ExampleLayer : public Blimp::Layer {
 	public:
 	ExampleLayer() : Layer("Por_Ejemplo") {}
 
-	// void OnUpdate() override {
-	// 	//BLIMP_INFO("ExampleLayer::Update");
+	 void OnUpdate() override {
+	 	//BLIMP_INFO("ExampleLayer::Update");
 
-	// 	if (Blimp::Input::IsKeyPressed(BLIMP_KEY_TAB)) {
-	// 		BLIMP_TRACE("TAB PRESSED");
-	// 	}
-	// }
+	 	if (Blimp::Input::IsKeyPressed(BLIMP_KEY_TAB)) {
+	 		BLIMP_TRACE("TAB PRESSED");
+	 	}
+	 }
 
 	virtual void OnImGuiRender() override {
 		ImGui::Begin("Test");
