@@ -10,7 +10,7 @@ namespace Blimp {
 		unsigned int Height;
 
 		WindowProperties(const std::string& _title = "Blimp Engine",
-			unsigned int _width = 1200, unsigned int _height = 700)
+			unsigned int _width = 1280, unsigned int _height = 700)
 			: Title(_title), Width(_width), Height(_height) {}
 	};
 

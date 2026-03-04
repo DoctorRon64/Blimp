@@ -5,8 +5,6 @@
 #include "Blimp/Events/KeyEvent.h"
 #include "Blimp/Events/MouseEvent.h"
 
-#include <glad/glad.h>
-
 namespace Blimp {
 	static bool GLFW_Initialized = false;
 
@@ -23,26 +21,27 @@ namespace Blimp {
 	}
 
 	void GLFWWindow::Init(const WindowProperties& properties) {
-		Data_.Title = properties.Title;
-		Data_.Width = properties.Width;
-		Data_.Height = properties.Height;
+		m_Data.Title = properties.Title;
+		m_Data.Width = properties.Width;
+		m_Data.Height = properties.Height;
 
 		BLIMP_CORE_INFO("Creating window {0} ({1}, {2})", properties.Title, properties.Width, properties.Height);
 
-		if (!GLFW_Initialized) {
+		if(!GLFW_Initialized) {
+			//TODO glfwTerminate on system shutdown
 			int success = glfwInit();
 			BLIMP_CORE_ASSERT(success, "Could not init GLFW!");
 			glfwSetErrorCallback(GLFWErrorCallback);
 			GLFW_Initialized = true;
 		}
 
-		m_Window = glfwCreateWindow(static_cast<int>(properties.Width), static_cast<int>(properties.Height), Data_.Title.c_str(), nullptr, nullptr);
+		m_Window = glfwCreateWindow(static_cast<int>(properties.Width), static_cast<int>(properties.Height), m_Data.Title.c_str(), nullptr, nullptr);
 		BLIMP_CORE_ASSERT(m_Window, "Could not create GLFW window!");
-		glfwMakeContextCurrent(m_Window);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		BLIMP_CORE_ASSERT(status, "Cannot initialize Glad!");
 
-		glfwSetWindowUserPointer(m_Window, &Data_);
+		m_Context = GraphicsContext::Create(m_Window);
+		m_Context->Init();
+
+		glfwSetWindowUserPointer(m_Window, &m_Data);
 		SetVSync(true);
 
 		glfwSetWindowSizeCallback(m_Window, [](GLFWwindow* window, int width, int height) {
@@ -66,18 +65,21 @@ namespace Blimp {
 			(void)scancode;
 			(void)mods;
 
-			switch (action) {
-				case GLFW_PRESS: {
+			switch(action) {
+				case GLFW_PRESS:
+				{
 					KeyPressedEvent event(key, false);
 					data.EventCallback(event);
 					break;
 				}
-				case GLFW_RELEASE: {
+				case GLFW_RELEASE:
+				{
 					KeyReleasedEvent event(key);
 					data.EventCallback(event);
 					break;
 				}
-				case GLFW_REPEAT: {
+				case GLFW_REPEAT:
+				{
 					KeyPressedEvent event(key, true);
 					data.EventCallback(event);
 					break;
@@ -95,13 +97,15 @@ namespace Blimp {
 			WindowData& data = *(WindowData*)glfwGetWindowUserPointer(window);
 			(void)mods;
 
-			switch (action) {
-				case GLFW_PRESS: {
+			switch(action) {
+				case GLFW_PRESS:
+				{
 					MouseButtonPressedEvent event(button);
 					data.EventCallback(event);
 					break;
 				}
-				case GLFW_RELEASE: {
+				case GLFW_RELEASE:
+				{
 					MouseButtonReleasedEvent event(button);
 					data.EventCallback(event);
 					break;
@@ -125,28 +129,25 @@ namespace Blimp {
 	}
 
 	void GLFWWindow::Terminate() {
-		glfwDestroyWindow(m_Window);
-		m_Window = nullptr;
+		m_Context.reset();
+
+		if(m_Window) {
+			glfwDestroyWindow(m_Window);
+			m_Window = nullptr;
+		}
 	}
 
 	void GLFWWindow::OnUpdate() {
 		glfwPollEvents();
-		glfwSwapBuffers(m_Window);
+		m_Context->SwapBuffers();
 	}
 
 	void GLFWWindow::SetVSync(bool enabled) {
-		if (enabled) {
-			glfwSwapInterval(1);
-		}
-		else {
-			glfwSwapInterval(0);
-		}
-
-		Data_.VSync = enabled;
+		m_Context->SetVSync(enabled);
 	}
 
 	bool GLFWWindow::IsVSync() const {
-		return Data_.VSync;
+		return m_Context->IsVSync();
 	}
 
 	void* GLFWWindow::GetNativeWindow() const {
