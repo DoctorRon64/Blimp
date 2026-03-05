@@ -82,6 +82,8 @@ namespace Blimp
 #ifdef IMGUI_HAS_DOCK
         ImGuiWindowFlags dockspaceFlags = ImGuiDockNodeFlags_PassthruCentralNode;
         ImGuiWindowFlags windowFlags = ImGuiWindowFlags_MenuBar | ImGuiWindowFlags_NoDocking;
+        if (dockspaceFlags & ImGuiDockNodeFlags_PassthruCentralNode)
+            windowFlags |= ImGuiWindowFlags_NoBackground;
 
         const ImGuiViewport* viewport = ImGui::GetMainViewport();
         ImGui::SetNextWindowPos(viewport->WorkPos);

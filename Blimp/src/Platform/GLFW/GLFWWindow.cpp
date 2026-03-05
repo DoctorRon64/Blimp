@@ -25,7 +25,7 @@ namespace Blimp {
 		m_Data.Width = properties.Width;
 		m_Data.Height = properties.Height;
 
-		BLIMP_CORE_INFO("Creating window {0} ({1}, {2})", properties.Title, properties.Width, properties.Height);
+		BLIMP_TRACE("Creating window {0} ({1}, {2})", properties.Title, properties.Width, properties.Height);
 
 		if(!GLFW_Initialized) {
 			//TODO glfwTerminate on system shutdown

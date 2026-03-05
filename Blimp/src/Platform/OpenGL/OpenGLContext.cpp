@@ -13,6 +13,14 @@ namespace Blimp {
 		glfwMakeContextCurrent(m_WindowHandle);
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BLIMP_CORE_ASSERT(status, "Cannot initialize Glad!");
+
+		BLIMP_CORE_INFO("OpenGL Info");
+		const char* vendor   = reinterpret_cast<const char*>(glGetString(GL_VENDOR));
+		const char* renderer = reinterpret_cast<const char*>(glGetString(GL_RENDERER));
+		const char* version  = reinterpret_cast<const char*>(glGetString(GL_VERSION));
+		BLIMP_CORE_INFO("Vendor: {}", vendor ? vendor : "<null>");
+		BLIMP_CORE_INFO("Renderer: {}", renderer ? renderer : "<null>");
+		BLIMP_CORE_INFO("Version: {}", version ? version : "<null>");
 	}
 
 	void OpenGLContext::SwapBuffers() {
