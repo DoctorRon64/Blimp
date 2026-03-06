@@ -10,4 +10,3 @@ endif()
 target_include_directories(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/Blimp/src")
 target_precompile_headers(${PROJECT_NAME} PRIVATE "${CMAKE_SOURCE_DIR}/Blimp/src/pch.h")
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE BLIMP_RUN_TEST=1)

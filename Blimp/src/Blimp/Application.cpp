@@ -67,7 +67,7 @@ namespace Blimp {
 	void Application::Run() {
 		while(m_Running) {
 			//TODO move this somewhere better
-			glClearColor(0.3, 0.3, 0.3, 1);
+			glClearColor(0.3f, 0.3f, 0.3f, 1.0f);
 
 			//Render Here
 			glClear(GL_COLOR_BUFFER_BIT);
