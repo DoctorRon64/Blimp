@@ -68,6 +68,8 @@ namespace Blimp {
 		while(m_Running) {
 			//TODO move this somewhere better
 			glClearColor(0.3, 0.3, 0.3, 1);
+
+			//Render Here
 			glClear(GL_COLOR_BUFFER_BIT);
 
 			//The drawing of the buffers each frame

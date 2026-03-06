@@ -11,6 +11,8 @@ namespace Blimp {
 	}
 	void OpenGLContext::Init() {
 		glfwMakeContextCurrent(m_WindowHandle);
+
+		//Initializing Glad
 		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
 		BLIMP_CORE_ASSERT(status, "Cannot initialize Glad!");
 
