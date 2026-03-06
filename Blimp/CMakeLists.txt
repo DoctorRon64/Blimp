@@ -19,6 +19,32 @@ else()
     message(FATAL_ERROR "Blimp only supports Windows and Linux!")
 endif()
 
+#Release mode optimalizations settings
+target_compile_options(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Release>:-O3>
+    $<$<CONFIG:Release>:-flto>
+    $<$<CONFIG:Release>:-funroll-loops>
+    $<$<CONFIG:Release>:-fvisibility=hidden>
+    $<$<CONFIG:Release>:-march=x86-64>
+    $<$<CONFIG:Release>:-Wno-unused-parameter>
+    $<$<CONFIG:Release>:-mtune=generic>
+    $<$<CONFIG:Release>:-mavx2>
+    $<$<CONFIG:Release>:-s>
+)
+
+#Debug mode optimalization settings
+target_compile_options(${PROJECT_NAME} PRIVATE
+    $<$<CONFIG:Debug>:-g>
+    $<$<CONFIG:Debug>:-ggdb>
+    $<$<CONFIG:Debug>:-O0>
+    $<$<CONFIG:Debug>:-Wall>
+    $<$<CONFIG:Debug>:-Wextra>
+    $<$<CONFIG:Debug>:-Werror>
+    $<$<CONFIG:Debug>:-Wunreachable-code>
+    $<$<CONFIG:Debug>:-Wconversion>
+    $<$<CONFIG:Debug>:-Wno-unused-parameter>
+)
+
 #Third-party deps
 add_subdirectory(libs/spdlog)
 add_subdirectory(libs/GLFW)
@@ -57,3 +83,6 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
 #         ${CMAKE_CURRENT_SOURCE_DIR}/assets
 #         ${CMAKE_CURRENT_SOURCE_DIR}/build/assets/
 # )
+
+target_compile_definitions(${PROJECT_NAME} PRIVATE BLIMP_RUN_TEST=1)
+

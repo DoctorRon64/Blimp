@@ -1,75 +1,31 @@
 {
-  "version": 8,
-  "cmakeMinimumRequired": {
-    "major": 3,
-    "minor": 25,
-    "patch": 0
-  },
-  "configurePresets": [
-    {
-      "name": "gcc-debug",
-      "displayName": "GCC Debug (UCRT64 + MinGW Makefiles)",
-      "description": "Default preset. Uses MSYS2 UCRT64 gcc/g++ with MinGW Makefiles.",
-      "generator": "MinGW Makefiles",
-      "binaryDir": "${sourceDir}/build/gcc-debug",
-      "cacheVariables": {
-        "CMAKE_BUILD_TYPE": "Debug",
-        "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
-        "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
-        "CMAKE_RC_COMPILER": "C:/msys64/ucrt64/bin/windres.exe",
-        "CMAKE_MAKE_PROGRAM": "C:/msys64/ucrt64/bin/mingw32-make.exe"
-      },
-      "environment": {
-        "PATH": "C:/msys64/ucrt64/bin;C:/msys64/usr/bin;$penv{PATH}"
-      }
-    },
-    {
-      "name": "vs2022-x64",
-      "displayName": "Visual Studio 2022 x64",
-      "description": "Optional Visual Studio generator preset.",
-      "generator": "Visual Studio 17 2022",
-      "binaryDir": "${sourceDir}/build/vs2022",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      }
-    },
-    {
-      "name": "vs2026-x64",
-      "displayName": "Visual Studio 2026 x64",
-      "description": "Requires a CMake version that supports the VS 2026 generator.",
-      "generator": "Visual Studio 18 2026",
-      "binaryDir": "${sourceDir}/build/vs2026",
-      "architecture": {
-        "value": "x64",
-        "strategy": "external"
-      }
-    }
-  ],
-  "buildPresets": [
-    {
-      "name": "gcc-debug",
-      "configurePreset": "gcc-debug"
-    },
-    {
-      "name": "vs2022-debug",
-      "configurePreset": "vs2022-x64",
-      "configuration": "Debug"
-    },
-    {
-      "name": "vs2022-release",
-      "configurePreset": "vs2022-x64",
-      "configuration": "Release"
-    },
-    {
-      "name": "vs2026-debug",
-      "configurePreset": "vs2026-x64",
-      "configuration": "Debug"
-    },
-    {
-      "name": "vs2026-release",
-      "configurePreset": "vs2026-x64",
-      "configuration": "Release"
-    }
-  ]
+    "version": 8,
+    "configurePresets": [
+        {
+            "name": "gcc-win-debug",
+            "displayName": "gcc-win-debug",
+            "description": "Using compilers: C = C:\\msys64\\ucrt64\\bin\\gcc.exe, CXX = C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build/debug/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
+                "CMAKE_BUILD_TYPE": "Debug"
+            }
+        },
+        {
+            "name": "gcc-win-release",
+            "displayName": "gcc-win-release",
+            "description": "Using compilers: C = C:\\msys64\\ucrt64\\bin\\gcc.exe, CXX = C:\\msys64\\ucrt64\\bin\\g++.exe",
+            "generator": "MinGW Makefiles",
+            "binaryDir": "${sourceDir}/build/release/${presetName}",
+            "cacheVariables": {
+                "CMAKE_INSTALL_PREFIX": "${sourceDir}/out/install/${presetName}",
+                "CMAKE_C_COMPILER": "C:/msys64/ucrt64/bin/gcc.exe",
+                "CMAKE_CXX_COMPILER": "C:/msys64/ucrt64/bin/g++.exe",
+                "CMAKE_BUILD_TYPE": "Release"
+            }
+        }
+    ]
 }
