@@ -4,6 +4,8 @@
 #include <GLAD/glad.h>
 #include <GLFW/glfw3.h>
 
+#include <stdexcept>
+
 namespace Blimp {
 	OpenGLContext::OpenGLContext(GLFWwindow* window)
 		: m_WindowHandle(window) {
@@ -11,8 +13,12 @@ namespace Blimp {
 	}
 	void OpenGLContext::Init() {
 		glfwMakeContextCurrent(m_WindowHandle);
-		int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-		BLIMP_CORE_ASSERT(status, "Cannot initialize Glad!");
+		const int gladStatus = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+		if(gladStatus == 0) {
+			BLIMP_CORE_ERROR("Cannot initialize Glad!");
+			BLIMP_CORE_ASSERT(false, "Cannot initialize Glad!");
+			throw std::runtime_error("Cannot initialize Glad!");
+		}
 
 		BLIMP_CORE_INFO("OpenGL Info");
 		const char* vendor   = reinterpret_cast<const char*>(glGetString(GL_VENDOR));

@@ -5,6 +5,8 @@
 #include "Blimp/Events/KeyEvent.h"
 #include "Blimp/Events/MouseEvent.h"
 
+#include <stdexcept>
+
 namespace Blimp {
 	static bool GLFW_Initialized = false;
 
@@ -29,8 +31,12 @@ namespace Blimp {
 
 		if(!GLFW_Initialized) {
 			//TODO glfwTerminate on system shutdown
-			int success = glfwInit();
-			BLIMP_CORE_ASSERT(success, "Could not init GLFW!");
+			const int initStatus = glfwInit();
+			if(initStatus == GLFW_FALSE) {
+				BLIMP_CORE_ERROR("Could not init GLFW!");
+				BLIMP_CORE_ASSERT(false, "Could not init GLFW!");
+				throw std::runtime_error("Could not init GLFW!");
+			}
 			glfwSetErrorCallback(GLFWErrorCallback);
 			GLFW_Initialized = true;
 		}
