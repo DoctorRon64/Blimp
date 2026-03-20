@@ -84,5 +84,3 @@ target_precompile_headers(${PROJECT_NAME} PRIVATE "src/pch.h")
 #         ${CMAKE_CURRENT_SOURCE_DIR}/build/assets/
 # )
 
-target_compile_definitions(${PROJECT_NAME} PRIVATE BLIMP_RUN_TEST=1)
-

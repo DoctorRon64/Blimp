@@ -31,11 +31,6 @@ namespace Blimp {
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		LayerStack m_LayerStack;
-
-		//TODO probably move this in the future
-		unsigned int m_VertexArray;
-		unsigned int m_VertexBuffer;
-		unsigned int m_IndexBuffer;
 	private:
 		static Application* s_Instance;
 	};

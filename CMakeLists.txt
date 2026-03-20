@@ -24,9 +24,11 @@ if (CMAKE_CONFIGURATION_TYPES)
 endif()
 
 add_subdirectory(Blimp)
-add_subdirectory(Sandbox)
+# add_subdirectory(Sandbox)
+add_subdirectory(OpenGLLearning)
 
 # maybe delete this
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set_target_properties(Blimp PROPERTIES FOLDER "Blimp")
-set_target_properties(Sandbox PROPERTIES FOLDER "Sandbox")
+set_target_properties(OpenGLLearning PROPERTIES FOLDER "OpenGLLearning")
+# set_target_properties(Sandbox PROPERTIES FOLDER "Sandbox")
